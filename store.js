@@ -9,12 +9,25 @@ function createStore () {
     let listeners = [];
   
     const getState = () => state;
+
     const subscribe = (listener) => {
         listeners.push(listener);
+        return () => {
+            listener.filter(l => l != listener)
+        }
     };
   
     return {
         getState,
         subscribe
     }
-  } 
+} 
+
+// Use
+const store = createStore();
+
+// Subscribe to changes in the state
+const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
+
+// Unsubscribe
+unsubscribe();
