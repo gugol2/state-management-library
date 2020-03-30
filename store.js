@@ -24,10 +24,19 @@ function createStore () {
             listener.filter(l => l != listener)
         }
     };
+
+    const dispatch = (action) => {
+        // update the state
+        state = todosReducer(state, action);
+
+        // nofify the change in the state to the listeners
+        listeners.forEach(listener => listener());
+    }
   
     return {
         getState,
-        subscribe
+        subscribe,
+        dispatch
     }
 } 
 
