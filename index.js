@@ -35,15 +35,16 @@ function createStore (reducer) {
 
 // Reducer
 function todo(state=[], action) {
-    if (action.type === 'ADD_TODO') {
-        return [...state, action.todo]
-    } else if (action.type === 'REMOVE_TODO') {
-        return state.filter(t => t.id !== action.todo.id)
-    } else if (action.type === 'TOGGLE_TODO') {
-        return state.map((todo) => todo.id !== action.todo.id ? todo : Object.assign({}, todo, { completed: !todo.completed }))
-    } else {
-        return state;
-    }
+    switch(action.type) {
+        case 'ADD_TODO' :
+          return state.concat([action.todo])
+        case 'REMOVE_TODO' :
+          return state.filter((todo) => todo.id !== action.todo.id)
+        case 'TOGGLE_TODO' :
+          return state.map((todo) => todo.id !== action.todo.id ? todo :Object.assign({}, todo, { complete: !todo.complete }))
+        default :
+          return state
+      }
 }
 
 // CODE
@@ -85,4 +86,4 @@ store.dispatch(removeTodo);
 unsubscribe();
 
 // Dispatch Action after unsubscribe
-store.dispatch(todoAction);
+store.dispatch(addTodo);
