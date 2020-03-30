@@ -1,12 +1,5 @@
-function todosReducer(state=[], action) {
-    if (action.type === 'ADD_TODO') {
-        return [...state, action.todo]
-    }
-
-    return state;
-}
-
-function createStore () {
+// Library Code
+function createStore (reducer) {
     // The store should have four parts
     // 1. The state
     // 2. Get the state.
@@ -27,7 +20,7 @@ function createStore () {
 
     const dispatch = (action) => {
         // update the state
-        state = todosReducer(state, action);
+        state = reducer(state, action);
 
         // nofify the change in the state to the listeners
         listeners.forEach(listener => listener());
@@ -40,8 +33,18 @@ function createStore () {
     }
 } 
 
+
+// App Code
+function todosReducer(state=[], action) {
+    if (action.type === 'ADD_TODO') {
+        return [...state, action.todo]
+    }
+
+    return state;
+}
+
 // Use
-const store = createStore();
+const store = createStore(todosReducer);
 
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
