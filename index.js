@@ -37,9 +37,13 @@ function createStore (reducer) {
 function todo(state=[], action) {
     if (action.type === 'ADD_TODO') {
         return [...state, action.todo]
+    } else if (action.type === 'REMOVE_TODO') {
+        return state.filter(t => t.id !== action.todo.id)
+    } else if (action.type === 'TOGGLE_TODO') {
+        return state.map((todo) => todo.id !== action.todo.id ? todo : Object.assign({}, todo, { completed: !todo.completed }))
+    } else {
+        return state;
     }
-
-    return state;
 }
 
 // CODE
@@ -49,7 +53,7 @@ const store = createStore(todo);
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
 
-const todoAction = {
+const addTodo = {
     type: 'ADD_TODO',
     todo: {
         id: 0,
@@ -58,8 +62,24 @@ const todoAction = {
     }
 };
 
+const removeTodo = {
+    type: 'REMOVE_TODO',
+    todo: {
+        id: 0
+    }
+};
+
+const toggleTodo = {
+    type: 'TOGGLE_TODO',
+    todo: {
+        id: 0
+    }
+};
+
 // Dispatch Action
-store.dispatch(todoAction);
+store.dispatch(addTodo);
+store.dispatch(toggleTodo);
+store.dispatch(removeTodo);
 
 // Unsubscribe
 unsubscribe();
