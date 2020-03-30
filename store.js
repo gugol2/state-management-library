@@ -1,5 +1,5 @@
 // Library Code
-function createStore (reducer) {
+export function createStore (reducer) {
     // The store should have four parts
     // 1. The state
     // 2. Get the state.
@@ -32,33 +32,3 @@ function createStore (reducer) {
         dispatch
     }
 } 
-
-
-// App Code
-function todosReducer(state=[], action) {
-    if (action.type === 'ADD_TODO') {
-        return [...state, action.todo]
-    }
-
-    return state;
-}
-
-// Use
-const store = createStore(todosReducer);
-
-// Subscribe to changes in the state
-const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
-
-const todoAction = {
-    type: 'ADD_TODO',
-    todo: 'First TODO'
-};
-
-// Dispatch Action
-store.dispatch(todoAction);
-
-// Unsubscribe
-unsubscribe();
-
-// Dispatch Action after unsubscribe
-store.dispatch(todoAction);
