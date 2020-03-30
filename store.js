@@ -14,7 +14,7 @@ function createStore (reducer) {
     const subscribe = (listener) => {
         listeners.push(listener);
         return () => {
-            listener.filter(l => l != listener)
+            listeners = listeners.filter(l => l != listener)
         }
     };
 
@@ -49,5 +49,16 @@ const store = createStore(todosReducer);
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
 
+const todoAction = {
+    type: 'ADD_TODO',
+    todo: 'First TODO'
+};
+
+// Dispatch Action
+store.dispatch(todoAction);
+
 // Unsubscribe
 unsubscribe();
+
+// Dispatch Action after unsubscribe
+store.dispatch(todoAction);
