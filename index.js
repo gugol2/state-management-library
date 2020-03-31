@@ -59,8 +59,8 @@ function goals(state=[], action) {
       }
 }
 
-// Root reducer
-function rootReducer (state = {}, action) {
+// Unique reducer
+function app (state = {}, action) {
     return {
         todos: todos(state.todos, action),
         goals: goals(state.goals, action)
@@ -69,7 +69,7 @@ function rootReducer (state = {}, action) {
 
 // CODE
 // Create store
-const store = createStore(rootReducer);
+const store = createStore(app);
 
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
