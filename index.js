@@ -33,8 +33,8 @@ function createStore (reducer) {
     }
 } 
 
-// Reducer
-function todo(state=[], action) {
+//TODOS reducer
+function todos(state=[], action) {
     switch(action.type) {
         case 'ADD_TODO' :
           return state.concat([action.todo])
@@ -42,6 +42,18 @@ function todo(state=[], action) {
           return state.filter((todo) => todo.id !== action.todo.id)
         case 'TOGGLE_TODO' :
           return state.map((todo) => todo.id !== action.todo.id ? todo :Object.assign({}, todo, { complete: !todo.complete }))
+        default :
+          return state
+      }
+}
+
+// GOALS reducer
+function goals(state=[], action) {
+    switch(action.type) {
+        case 'ADD_GOAL' :
+          return state.concat([action.goal])
+        case 'REMOVE_GOAL' :
+          return state.filter((goal) => goal.id !== action.goal.id)
         default :
           return state
       }
