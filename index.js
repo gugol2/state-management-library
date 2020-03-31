@@ -40,6 +40,41 @@ const TOGGLE_TODO = 'TOGGLE_TODO';
 const ADD_GOAL = 'ADD_GOAL';
 const REMOVE_GOAL = 'REMOVE_GOAL';
 
+function addTodoAction (todo) {
+    return {
+        type: ADD_TODO,
+        todo
+    }
+}
+
+function removeTodoAction (id) {
+    return {
+        type: REMOVE_TODO,
+        id
+    }
+}
+
+function toggleTodoAction (id) {
+    return {
+        type: TOGGLE_TODO,
+        id
+    }
+}
+
+function addGoalAction (goal) {
+    return {
+        type: ADD_GOAL,
+        goal
+    }
+}
+
+function removeGoalAction (id) {
+    return {
+        type: REMOVE_GOAL,
+        id
+    }
+}
+
 //TODOS reducer
 function todos(state=[], action) {
     switch(action.type) {
@@ -81,40 +116,21 @@ const store = createStore(app);
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
 
-const addTodo = {
-    type: ADD_TODO,
-    todo: {
-        id: 0,
-        name: 'Eat healthy',
-        completed: true
-    }
-};
-
-const removeTodo = {
-    type: REMOVE_TODO,
-    id: 0
-};
-
-const toggleTodo = {
-    type: TOGGLE_TODO,
-    id: 0
-};
-
 // Dispatch Action
-store.dispatch(addTodo);
-store.dispatch(toggleTodo);
-store.dispatch(removeTodo);
-store.dispatch({
-    type: ADD_GOAL,
-    goal: {
-      id: 0,
-      name: 'Learn Redux'
-    }
-});
-store.dispatch({
-    type: REMOVE_GOAL,
-    id: 0
-});
+store.dispatch(addTodoAction({
+    id: 0,
+    name: 'Eat healthy',
+    completed: true
+}));
+
+store.dispatch(toggleTodoAction(0));
+store.dispatch(removeTodoAction(0));
+
+store.dispatch(addGoalAction({
+    id: 0,
+    name: 'Learn Redux'
+}));
+store.dispatch(removeGoalAction(0));
 
 // Unsubscribe
 unsubscribe();
