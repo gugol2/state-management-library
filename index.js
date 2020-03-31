@@ -39,9 +39,9 @@ function todos(state=[], action) {
         case 'ADD_TODO' :
           return state.concat([action.todo])
         case 'REMOVE_TODO' :
-          return state.filter((todo) => todo.id !== action.todo.id)
+          return state.filter((todo) => todo.id !== action.id)
         case 'TOGGLE_TODO' :
-          return state.map((todo) => todo.id !== action.todo.id ? todo :Object.assign({}, todo, { complete: !todo.complete }))
+          return state.map((todo) => todo.id !== action.id ? todo : Object.assign({}, todo, { completed: !todo.completed }))
         default :
           return state
       }
@@ -53,15 +53,23 @@ function goals(state=[], action) {
         case 'ADD_GOAL' :
           return state.concat([action.goal])
         case 'REMOVE_GOAL' :
-          return state.filter((goal) => goal.id !== action.goal.id)
+          return state.filter((goal) => goal.id !== action.id)
         default :
           return state
       }
 }
 
+// Root reducer
+function rootReducer (state = {}, action) {
+    return {
+        todos: todos(state.todos, action),
+        goals: goals(state.goals, action)
+    }
+}
+
 // CODE
 // Create store
-const store = createStore(todo);
+const store = createStore(rootReducer);
 
 // Subscribe to changes in the state
 const unsubscribe = store.subscribe(() => console.log('state', store.getState()));
@@ -77,22 +85,29 @@ const addTodo = {
 
 const removeTodo = {
     type: 'REMOVE_TODO',
-    todo: {
-        id: 0
-    }
+    id: 0
 };
 
 const toggleTodo = {
     type: 'TOGGLE_TODO',
-    todo: {
-        id: 0
-    }
+    id: 0
 };
 
 // Dispatch Action
 store.dispatch(addTodo);
 store.dispatch(toggleTodo);
 store.dispatch(removeTodo);
+store.dispatch({
+    type: 'ADD_GOAL',
+    goal: {
+      id: 0,
+      name: 'Learn Redux'
+    }
+});
+store.dispatch({
+    type: 'REMOVE_GOAL',
+    id: 0
+});
 
 // Unsubscribe
 unsubscribe();
